@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Como o PSV descobriu o Romário?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lora:ital,wght@0,400;0,600;1,400&family=Oswald:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --verde: #009c3b;
+      --amarelo: #ffdf00;
+      --azul: #002776;
+      --vermelho: #d62828;
+      --creme: #fdf6ec;
+      --carvao: #1a1a1a;
+      --cinza: #6b6b6b;
+      --borda: #e0d8cc;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--creme);
+      color: var(--carvao);
+      font-family: 'Lora', Georgia, serif;
+      overflow-x: hidden;
+    }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      overflow: hidden;
+      background: var(--carvao);
+      padding-bottom: 80px;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse at 20% 50%, rgba(0,156,59,0.25) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 30%, rgba(214,40,40,0.2) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 80%, rgba(255,223,0,0.1) 0%, transparent 50%);
+      animation: pulse-bg 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulse-bg {
+      from { opacity: 0.7; }
+      to { opacity: 1; }
+    }
+
+    .hero-grain {
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .hero-stripe {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 8px;
+      background: linear-gradient(90deg, var(--vermelho) 33.3%, #fff 33.3% 66.6%, var(--vermelho) 66.6%);
+    }
+
+    .hero-year {
+      position: absolute;
+      top: 50px;
+      right: 60px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 10rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.04);
+      letter-spacing: -0.02em;
+      line-height: 1;
+      user-select: none;
+    }
+
+    .hero-label {
+      position: absolute;
+      top: 48px;
+      left: 60px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--amarelo);
+      opacity: 0;
+      animation: fadeDown 0.8s 0.3s forwards;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 0 24px;
+      max-width: 860px;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 1s 0.5s forwards;
+    }
+
+    .hero-pretitle {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--amarelo);
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2.8rem, 7vw, 6.5rem);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 28px;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--amarelo);
+    }
+
+    .hero-rule {
+      width: 60px;
+      height: 3px;
+      background: var(--verde);
+      margin: 0 auto 28px;
+    }
+
+    .hero-sub {
+      font-family: 'Lora', serif;
+      font-size: 1rem;
+      font-style: italic;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 0.02em;
+    }
+
+    /* PHOTOS STRIP */
+    .photos-strip {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 16px;
+      max-width: 900px;
+      margin: 60px auto 0;
+      position: relative;
+      z-index: 5;
+      padding: 0 32px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 1s 1s forwards;
+    }
+
+    .photo-card {
+      overflow: hidden;
+      position: relative;
+      border-radius: 6px;
+      flex-shrink: 0;
+    }
+
+    /* foto PSV — paisagem, maior */
+    .photo-card:first-child {
+      flex: 1.35;
+      transform: rotate(-1deg);
+      box-shadow: -8px 16px 48px rgba(0,0,0,0.5);
+      z-index: 2;
+    }
+
+    /* foto Brasil — retrato, menor */
+    .photo-card:last-child {
+      flex: 0.65;
+      transform: rotate(1.2deg);
+      box-shadow: 8px 16px 48px rgba(0,0,0,0.5);
+      z-index: 1;
+    }
+
+    .photo-card img {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      filter: sepia(10%) contrast(1.08);
+      transition: filter 0.4s, transform 0.5s;
+    }
+
+    .photo-card:last-child img {
+      height: 340px;
+    }
+
+    .photo-card:hover img {
+      filter: sepia(0%) contrast(1.12);
+      transform: scale(1.04);
+    }
+
+    .photo-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,0.82));
+      color: rgba(255,255,255,0.92);
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      padding: 28px 14px 12px;
+    }
+
+    /* ARTICLE */
+    article {
+      max-width: 720px;
+      margin: 80px auto 0;
+      padding: 0 24px 100px;
+    }
+
+    .section-tag {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--vermelho);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 48px;
+    }
+
+    .section-tag::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--borda);
+    }
+
+    p {
+      font-size: 1.1rem;
+      line-height: 1.9;
+      color: #2c2c2c;
+      margin-bottom: 28px;
+    }
+
+    .drop-cap::first-letter {
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem;
+      font-weight: 900;
+      float: left;
+      line-height: 0.75;
+      margin-right: 8px;
+      margin-top: 8px;
+      color: var(--vermelho);
+    }
+
+    blockquote {
+      border-left: 4px solid var(--amarelo);
+      margin: 48px 0;
+      padding: 24px 32px;
+      background: rgba(255,223,0,0.06);
+      border-radius: 0 4px 4px 0;
+      position: relative;
+    }
+
+    blockquote::before {
+      content: '\201C';
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem;
+      color: var(--amarelo);
+      opacity: 0.3;
+      position: absolute;
+      top: -10px;
+      left: 16px;
+      line-height: 1;
+    }
+
+    blockquote p {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.3rem;
+      line-height: 1.6;
+      color: var(--carvao);
+      margin: 0;
+    }
+
+    blockquote cite {
+      display: block;
+      margin-top: 14px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cinza);
+      font-style: normal;
+    }
+
+    .highlight-box {
+      background: var(--carvao);
+      color: #fff;
+      border-radius: 6px;
+      padding: 36px 40px;
+      margin: 48px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .highlight-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--verde), var(--amarelo), var(--verde));
+    }
+
+    .highlight-box p {
+      color: rgba(255,255,255,0.9);
+      font-size: 1rem;
+      margin: 0;
+    }
+
+    .highlight-box strong {
+      color: var(--amarelo);
+    }
+
+    .irony-section {
+      border: 1px solid var(--borda);
+      border-radius: 6px;
+      padding: 36px;
+      margin: 48px 0;
+      background: rgba(214,40,40,0.03);
+      position: relative;
+    }
+
+    .irony-label {
+      position: absolute;
+      top: -12px;
+      left: 24px;
+      background: var(--vermelho);
+      color: #fff;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 2px;
+    }
+
+    .irony-section p {
+      margin: 0;
+      font-style: italic;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--borda);
+      text-align: center;
+      padding: 40px 24px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cinza);
+    }
+
+    footer span {
+      color: var(--verde);
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeDown {
+      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; transform: translateY(-10px); }
+    }
+
+    /* SCROLL REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (max-width: 600px) {
+      .hero-year { font-size: 5rem; right: 20px; }
+      .hero-label { left: 20px; }
+      .photos-strip { flex-direction: column; align-items: center; gap: 20px; padding: 0 20px; margin: 40px auto 0; }
+      .photo-card:first-child, .photo-card:last-child { flex: none; width: 100%; transform: none; }
+      .photo-card img { height: 280px; }
+      .photo-card:last-child img { height: 340px; }
+      blockquote { padding: 20px; }
+      .highlight-box { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grain"></div>
+    <div class="hero-stripe"></div>
+    <div class="hero-year">1988</div>
+    <div class="hero-label">Futebol · História · Europa</div>
+    <div class="hero-content">
+      <p class="hero-pretitle">A descoberta improvável</p>
+      <h1 class="hero-title">Como o PSV<br>descobriu o <em>Romário?</em></h1>
+      <div class="hero-rule"></div>
+      <p class="hero-sub">Uma viagem à Bélgica, uma pista falsa e um garoto que assistia às Olimpíadas de Seul</p>
+    </div>
+  </header>
+
+  <div class="photos-strip">
+    <div class="photo-card">
+      <img src="romario-psv.jpeg" alt="Romário com a camisa do PSV Eindhoven" />
+      <div class="photo-caption">Romário · PSV Eindhoven</div>
+    </div>
+    <div class="photo-card">
+      <img src="romario-brasil.jpeg" alt="Romário com a camisa da Seleção Brasileira" />
+      <div class="photo-caption">Romário · Seleção Brasileira · Seul 1988</div>
+    </div>
+  </div>
+
+  <article>
+    <div class="section-tag">A história</div>
+
+    <p class="drop-cap reveal">O PSV Eindhoven estava procurando um novo atacante no fim dos anos 1980. A prioridade do clube era contratar Mark Degryse, destaque do Club Brugge KV. Os dirigentes foram até a Bélgica tentar abrir negociação, mas ouviram uma resposta direta: o Bruges não queria nem conversar sobre a venda do jogador.</p>
+
+    <p class="reveal">Durante a conversa, porém, surgiu um detalhe curioso. Os dirigentes belgas comentaram que já tinham encontrado um possível substituto para sua estrela. Disseram apenas que haviam descoberto <strong>"um craque vindo dos trópicos"</strong>. Não revelaram o país nem o nome do jogador.</p>
+
+    <blockquote class="reveal">
+      <p>Esse jogador só pode ser Romário.</p>
+      <cite>— Filho adolescente de Gijs Plasman, 1988</cite>
+    </blockquote>
+
+    <p class="reveal">Na volta da viagem, o executivo do PSV, acompanhado do assistente Gijs Plasman, comentava sobre aquele misterioso jogador tropical. Foi então que o filho adolescente de Plasman, que acompanhava atentamente as Olimpíadas de Seul de 1988, deu um palpite imediato. O garoto explicou que assistia todas as noites aos melhores momentos da seleção brasileira e que o camisa 11 era claramente o grande destaque do torneio. Para ele, não havia dúvida de quem o Bruges estava observando.</p>
+
+    <p class="reveal">O nome chamou imediatamente a atenção da diretoria do PSV. A percepção era simples: talvez nenhum grande clube europeu ainda tivesse entendido totalmente o potencial daquele atacante brasileiro. Era preciso agir rápido.</p>
+
+    <div class="highlight-box reveal">
+      <p>A ordem do presidente do PSV foi direta:<br><br>
+      <strong>"Vocês só voltam com Romário."</strong></p>
+    </div>
+
+    <p class="reveal">Pouco depois, representantes do clube viajaram ao Rio de Janeiro para ter o primeiro contato com Romário. A negociação avançou rapidamente, e o atacante acabou sendo contratado pelo PSV, iniciando uma trajetória histórica no futebol europeu.</p>
+
+    <div class="irony-section reveal">
+      <span class="irony-label">A ironia</span>
+      <p>Mas o desfecho da história guarda uma ironia curiosa. No fim, revelou-se que o Club Brugge KV nem estava pensando em contratar Romário. Na verdade, o clube belga queria <strong>Frank Farina</strong>. Enquanto o Bruges procurava outro atacante, o PSV interpretou a pista de forma diferente, correu para o Brasil e acabou descobrindo um dos maiores jogadores da história do futebol mundial.</p>
+    </div>
+
+  </article>
+
+  <footer>
+    <p>Futebol &amp; Memória &nbsp;·&nbsp; <span>Romário · PSV · Seul 1988</span></p>
+  </footer>
+
+  <script>
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>

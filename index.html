@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Incrível Futebol — O Jogo Além das Quatro Linhas</title>
+  <meta name="description" content="Histórias únicas, bastidores e curiosidades do futebol que você nunca vai esquecer." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --preto:    #0d0d0d;
+      --carvao:   #1a1a1a;
+      --cinza-e:  #2c2c2c;
+      --cinza-m:  #5a5a5a;
+      --cinza-c:  #a0a0a0;
+      --creme:    #f5f0e8;
+      --branco:   #fdfaf5;
+      --verde:    #009c3b;
+      --amarelo:  #ffdf00;
+      --vermelho: #d62828;
+      --borda:    rgba(255,255,255,0.08);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--preto);
+      color: var(--branco);
+      font-family: 'Lora', Georgia, serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 999;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.55;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 60px;
+      background: rgba(13,13,13,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--borda);
+    }
+
+    .nav-brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.35rem;
+      letter-spacing: 0.12em;
+      color: var(--branco);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-brand-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--verde);
+      animation: blink 2s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .nav-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cinza-c);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 120px 48px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 80% 20%, rgba(0,156,59,0.18) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 50% at 15% 80%, rgba(255,223,0,0.1) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 40% at 50% 50%, rgba(214,40,40,0.08) 0%, transparent 60%);
+    }
+
+    /* Campo de futebol SVG decorativo */
+    .hero-field {
+      position: absolute;
+      right: -80px;
+      top: 50%;
+      transform: translateY(-50%) rotate(10deg);
+      width: 600px;
+      opacity: 0.04;
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--verde);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.3s forwards;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 30px;
+      height: 2px;
+      background: var(--verde);
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 11vw, 10rem);
+      line-height: 0.9;
+      letter-spacing: 0.03em;
+      color: var(--branco);
+      margin-bottom: 10px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.5s forwards;
+    }
+
+    .hero-title-alt {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1.8rem, 4.5vw, 4rem);
+      font-weight: 700;
+      color: var(--amarelo);
+      line-height: 1.1;
+      margin-bottom: 36px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.65s forwards;
+    }
+
+    .hero-desc {
+      max-width: 540px;
+      font-size: 1rem;
+      line-height: 1.75;
+      color: rgba(253,250,245,0.55);
+      font-style: italic;
+      margin-bottom: 48px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.8s forwards;
+    }
+
+    .hero-scroll {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--cinza-c);
+      opacity: 0;
+      animation: fadeUp 0.8s 1s forwards;
+    }
+
+    .hero-scroll-line {
+      width: 40px;
+      height: 1px;
+      background: var(--cinza-m);
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 0 48px;
+      margin: 64px 0 48px;
+    }
+
+    .divider-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--verde);
+      white-space: nowrap;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--borda);
+    }
+
+    /* ── MATÉRIAS GRID ── */
+    .materias {
+      padding: 0 32px 100px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .card {
+      position: relative;
+      background: var(--carvao);
+      overflow: hidden;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+      border: 1px solid rgba(255,255,255,0.04);
+      transition: border-color 0.3s;
+    }
+
+    .card:hover {
+      border-color: rgba(255,255,255,0.12);
+    }
+
+    .card-accent {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+
+    .card--verde .card-accent  { background: linear-gradient(90deg, var(--verde), transparent); }
+    .card--amarelo .card-accent { background: linear-gradient(90deg, var(--amarelo), transparent); }
+    .card--vermelho .card-accent { background: linear-gradient(90deg, var(--vermelho), transparent); }
+
+    .card-inner {
+      padding: 44px 36px 40px;
+      position: relative;
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .card-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 20%;
+      display: block;
+      opacity: 0.32;
+      filter: grayscale(20%) contrast(1.1);
+      transition: opacity 0.5s, filter 0.5s;
+      z-index: 0;
+    }
+
+    .card:hover .card-photo {
+      opacity: 0.5;
+      filter: grayscale(0%) contrast(1.1);
+    }
+
+    .card-inner > *:not(.card-photo) {
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-bg-text {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 7rem;
+      color: rgba(255,255,255,0.03);
+      line-height: 1;
+      letter-spacing: 0.02em;
+      user-select: none;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .card-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .card--verde  .card-tag { color: var(--verde); }
+    .card--amarelo .card-tag { color: var(--amarelo); }
+    .card--vermelho .card-tag { color: var(--vermelho); }
+
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      font-weight: 900;
+      line-height: 1.15;
+      color: var(--branco);
+      margin-bottom: 16px;
+      transition: color 0.3s;
+    }
+
+    .card:hover .card-title {
+      color: var(--amarelo);
+    }
+
+    .card-desc {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: rgba(253,250,245,0.5);
+      font-style: italic;
+      margin-bottom: 32px;
+      flex-grow: 1;
+    }
+
+    .card-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--branco);
+      padding: 12px 22px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 2px;
+      transition: background 0.25s, border-color 0.25s, color 0.25s;
+      text-decoration: none;
+    }
+
+    .card--verde  .card-cta:hover { background: var(--verde);   border-color: var(--verde);   color: #fff; }
+    .card--amarelo .card-cta:hover { background: var(--amarelo); border-color: var(--amarelo); color: var(--preto); }
+    .card--vermelho .card-cta:hover { background: var(--vermelho);border-color: var(--vermelho);color: #fff; }
+
+    .card-cta-arrow {
+      display: inline-block;
+      transition: transform 0.25s;
+    }
+
+    .card:hover .card-cta-arrow { transform: translateX(4px); }
+
+    /* Card DESTAQUE — ocupa 2 colunas na grade quando há espaço */
+    .card--destaque {
+      grid-column: 1 / -1;
+    }
+
+    .card--destaque .card-inner {
+      min-height: 320px;
+    }
+
+    .card--destaque .card-title {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      max-width: 700px;
+    }
+
+    /* ── SOBRE ── */
+    .sobre {
+      border-top: 1px solid var(--borda);
+      padding: 64px 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 16px;
+    }
+
+    .sobre-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--verde);
+    }
+
+    .sobre-text {
+      max-width: 600px;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: rgba(253,250,245,0.5);
+      font-style: italic;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--borda);
+      padding: 28px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.12em;
+      color: rgba(253,250,245,0.3);
+    }
+
+    .footer-copy {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(253,250,245,0.2);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .nav-tag { display: none; }
+
+      .hero { padding: 100px 24px 60px; }
+      .hero-field { display: none; }
+
+      .divider { padding: 0 24px; margin: 40px 0 32px; }
+
+      .materias {
+        padding: 0 16px 80px;
+        grid-template-columns: 1fr;
+        gap: 2px;
+      }
+
+      .card--destaque { grid-column: auto; }
+
+      .card-inner { padding: 32px 24px 28px; min-height: 340px; }
+
+      .card--destaque .card-inner { min-height: 300px; }
+
+      .card-bg-text { font-size: 4rem; }
+
+      .sobre { padding: 48px 24px; }
+
+      footer { padding: 24px 24px; flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title { font-size: 3.5rem; }
+      .hero-title-alt { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-brand">
+      <span class="nav-brand-dot"></span>
+      Incrível Futebol
+    </a>
+    <span class="nav-tag">O Jogo Além das Quatro Linhas</span>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+
+    <!-- Campo decorativo SVG -->
+    <svg class="hero-field" viewBox="0 0 500 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="2" y="2" width="496" height="336" rx="4" stroke="white" stroke-width="3"/>
+      <line x1="250" y1="2" x2="250" y2="338" stroke="white" stroke-width="2"/>
+      <circle cx="250" cy="170" r="46" stroke="white" stroke-width="2"/>
+      <circle cx="250" cy="170" r="3" fill="white"/>
+      <rect x="2" y="108" width="80" height="124" stroke="white" stroke-width="2"/>
+      <rect x="418" y="108" width="80" height="124" stroke="white" stroke-width="2"/>
+      <rect x="2" y="138" width="34" height="64" stroke="white" stroke-width="2"/>
+      <rect x="464" y="138" width="34" height="64" stroke="white" stroke-width="2"/>
+    </svg>
+
+    <div class="hero-eyebrow">Histórias que o futebol escreveu</div>
+    <h1 class="hero-title">Incrível<br>Futebol</h1>
+    <p class="hero-title-alt">O Jogo Além das Quatro Linhas</p>
+    <p class="hero-desc">Bastidores, coincidências, gênios e ironias que moldam o maior esporte do mundo. Histórias que você não vai encontrar no placar.</p>
+    <div class="hero-scroll">
+      <span class="hero-scroll-line"></span>
+      Leia as matérias
+    </div>
+  </section>
+
+  <!-- DIVIDER -->
+  <div class="divider reveal">
+    <span class="divider-label">Matérias</span>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- GRID DE MATÉRIAS -->
+  <main class="materias">
+
+    <!-- CARD 1 — Romário PSV (DESTAQUE) -->
+    <a href="romario-psv.html" class="card card--verde card--destaque reveal">
+      <div class="card-accent"></div>
+      <div class="card-inner">
+        <img class="card-photo" src="romario-brasil.jpeg" alt="Romário pela Seleção Brasileira" />
+        <div class="card-bg-text">1988</div>
+        <p class="card-tag">Transferências · Brasil · Europa</p>
+        <h2 class="card-title">Como o PSV descobriu o Romário?</h2>
+        <p class="card-desc">
+          Uma viagem frustrada à Bélgica, uma pista de segunda mão e um garoto que não largava as Olimpíadas de Seul. O acaso que mudou o futebol europeu.
+        </p>
+        <span class="card-cta">
+          Ler matéria <span class="card-cta-arrow">→</span>
+        </span>
+      </div>
+    </a>
+
+    <!-- CARD 2 — De sobrevivência a exportador de talentos -->
+    <a href="de-sobrevivencia-a-exportador-de-talentos.html" class="card card--amarelo reveal">
+      <div class="card-accent"></div>
+      <div class="card-inner">
+        <img class="card-photo" src="vasco-saf.jpeg" alt="Futebol e mercado financeiro" />
+        <div class="card-bg-text">SAF</div>
+        <p class="card-tag">Gestão · Vasco · Mercado</p>
+        <h2 class="card-title">De sobrevivência a exportador de talentos</h2>
+        <p class="card-desc">
+          Como o Vasco SAF transformou uma crise existencial em laboratório de revelação de jogadores — e passou a ditar tendências no mercado de transferências.
+        </p>
+        <span class="card-cta">
+          Ler matéria <span class="card-cta-arrow">→</span>
+        </span>
+      </div>
+    </a>
+
+  </main>
+
+  <!-- SOBRE -->
+  <section class="sobre reveal">
+    <span class="sobre-label">Sobre o projeto</span>
+    <p class="sobre-text">
+      Incrível Futebol nasceu para contar as histórias que ficam nas sombras dos gols e títulos — os bastidores, as irônicas coincidências e os personagens que escreveram o jogo sem aparecer nos flashs.
+    </p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-brand">Incrível Futebol</span>
+    <span class="footer-copy">O Jogo Além das Quatro Linhas &nbsp;·&nbsp; 2025</span>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 100);
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    reveals.forEach(el => io.observe(el));
+  </script>
+
+</body>
+</html>

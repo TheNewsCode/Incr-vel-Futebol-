@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Do Futebol ao Jornalismo: Um Sonho que Persistiu — Incrível Futebol</title>
+<meta name="description" content="O jornalismo sempre foi o meu sonho. E, como muitos sonhos, ele começou na minha infância, nas ondas do rádio." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lora:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400;1,6..72,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --preto:    #0d0d0d;
+    --carvao:   #1a1a1a;
+    --cinza-e:  #2c2c2c;
+    --cinza-m:  #5a5a5a;
+    --cinza-c:  #a0a0a0;
+    --branco:   #fdfaf5;
+    --verde:    #009c3b;
+    --amarelo:  #ffdf00;
+    --vermelho: #d62828;
+    --radio:    #c8960c;
+    --radio-cl: #f0c040;
+    --borda:    rgba(255,255,255,0.08);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--preto);
+    color: var(--branco);
+    font-family: "Lora", Georgia, serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* GRAIN */
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 999;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.55;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px; height: 60px;
+    background: rgba(13,13,13,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--borda);
+  }
+  .nav-brand {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 1.35rem; letter-spacing: 0.12em;
+    color: var(--branco); text-decoration: none;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .nav-brand-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--verde);
+    animation: blink 2s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+  .nav-back {
+    font-family: "DM Mono", monospace;
+    font-size: 0.6rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--cinza-c);
+    text-decoration: none;
+    display: flex; align-items: center; gap: 8px;
+    transition: color 0.25s;
+  }
+  .nav-back:hover { color: var(--radio-cl); }
+
+  /* ── HERO — fundo simbólico: ondas de rádio ── */
+  .hero {
+    min-height: 92vh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 120px 48px 80px;
+    position: relative; overflow: hidden;
+    background: var(--preto);
+  }
+
+  /* Ondas de rádio SVG animadas no fundo */
+  .hero-radio-waves {
+    position: absolute;
+    inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none;
+  }
+  .hero-radio-waves svg {
+    width: 100%; height: 100%;
+    position: absolute; inset: 0;
+  }
+
+  .wave-ring {
+    fill: none;
+    stroke: rgba(200,150,12,0.07);
+    stroke-width: 1.5;
+    transform-origin: center;
+    animation: pulseWave 4s ease-out infinite;
+  }
+  .wave-ring:nth-child(2) { animation-delay: 1s; stroke: rgba(200,150,12,0.05); }
+  .wave-ring:nth-child(3) { animation-delay: 2s; stroke: rgba(200,150,12,0.035); }
+  .wave-ring:nth-child(4) { animation-delay: 3s; stroke: rgba(200,150,12,0.02); }
+
+  @keyframes pulseWave {
+    0%   { r: 80; opacity: 1; }
+    100% { r: 600; opacity: 0; }
+  }
+
+  .hero-gradient {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 70% at 20% 60%, rgba(200,150,12,0.1) 0%, transparent 65%),
+      radial-gradient(ellipse 50% 60% at 80% 30%, rgba(0,156,59,0.06) 0%, transparent 60%),
+      linear-gradient(to top, rgba(13,13,13,1) 0%, rgba(13,13,13,0.4) 60%, rgba(13,13,13,0.15) 100%);
+  }
+
+  .hero-content { position: relative; z-index: 2; max-width: 800px; }
+
+  .hero-tipo {
+    font-family: "DM Mono", monospace;
+    font-size: 0.62rem; letter-spacing: 0.4em;
+    text-transform: uppercase; color: var(--radio);
+    margin-bottom: 18px;
+    display: flex; align-items: center; gap: 14px;
+    opacity: 0; animation: fadeUp 0.7s 0.2s forwards;
+  }
+  .hero-tipo::before {
+    content: ""; display: inline-block;
+    width: 28px; height: 2px; background: var(--radio);
+  }
+
+  .hero-tipo-badge {
+    border: 1px solid rgba(200,150,12,0.4);
+    padding: 2px 10px;
+    font-size: 0.55rem; letter-spacing: 0.3em;
+    color: var(--radio-cl);
+    border-radius: 1px;
+  }
+
+  h1 {
+    font-family: "Playfair Display", serif;
+    font-size: clamp(2.5rem, 5.5vw, 5rem);
+    font-weight: 900; line-height: 1.05; letter-spacing: -0.5px;
+    color: var(--branco); margin-bottom: 10px;
+    opacity: 0; animation: fadeUp 0.9s 0.4s forwards;
+  }
+  h1 em { font-style: italic; color: var(--radio-cl); }
+
+  .hero-sub {
+    font-family: "Playfair Display", serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+    font-style: italic; font-weight: 700;
+    color: rgba(253,250,245,0.5); margin-bottom: 36px;
+    opacity: 0; animation: fadeUp 0.9s 0.55s forwards;
+  }
+
+  .meta-bar {
+    display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+    border-top: 1px solid rgba(255,255,255,0.08); padding-top: 20px;
+    opacity: 0; animation: fadeUp 0.8s 0.75s forwards;
+  }
+  .meta-item {
+    font-family: "DM Mono", monospace;
+    font-size: 0.58rem; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--cinza-c);
+  }
+  .meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--cinza-m); }
+
+  /* ── CRÔNICA ── */
+  .cronica-wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 80px 24px 120px;
+    position: relative;
+  }
+
+  /* Linha vertical de coluna à esquerda — detalhe editorial */
+  .cronica-wrap::before {
+    content: "";
+    position: absolute;
+    left: -1px; top: 80px; bottom: 120px;
+    width: 1px;
+    background: linear-gradient(to bottom,
+      transparent,
+      rgba(200,150,12,0.2) 15%,
+      rgba(200,150,12,0.2) 85%,
+      transparent
+    );
+  }
+
+  /* Vinheta de rádio no topo do texto */
+  .radio-vinheta {
+    font-family: "DM Mono", monospace;
+    font-size: 0.7rem; letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--radio);
+    border: 1px solid rgba(200,150,12,0.25);
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 8px 18px; margin-bottom: 52px;
+    position: relative;
+    background: rgba(200,150,12,0.04);
+  }
+  .radio-vinheta::before {
+    content: "";
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--radio);
+    animation: blink 1.4s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  p {
+    font-size: 1.08rem;
+    line-height: 1.9;
+    color: rgba(253,250,245,0.82);
+    margin-bottom: 32px;
+    font-weight: 400;
+  }
+
+  /* Drop cap apenas no primeiro parágrafo */
+  p.drop::first-letter {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 5.5rem; line-height: 0.76;
+    float: left; margin-right: 10px; margin-top: 8px;
+    color: var(--radio-cl);
+  }
+
+  /* Parágrafo de ênfase — "E mudou." */
+  p.enfase {
+    font-family: "Playfair Display", serif;
+    font-size: 1.5rem; font-style: italic; font-weight: 700;
+    color: var(--branco); text-align: center;
+    margin: 48px 0;
+    opacity: 0.9;
+  }
+  p.enfase::first-letter { all: unset; }
+
+  /* Vinheta inline */
+  .vinheta-inline {
+    font-family: "DM Mono", monospace;
+    font-size: 0.72rem; letter-spacing: 0.3em;
+    color: var(--radio);
+    display: flex; align-items: center; gap: 14px;
+    margin: 0 0 28px;
+    opacity: 0.85;
+  }
+  .vinheta-inline::before, .vinheta-inline::after {
+    content: ""; flex-shrink: 0;
+    height: 1px; width: 30px;
+    background: rgba(200,150,12,0.35);
+  }
+
+  /* Jargão — citação de locutor */
+  .jargao {
+    margin: 44px 0;
+    padding: 24px 32px 24px 28px;
+    border-left: 3px solid var(--radio);
+    background: rgba(200,150,12,0.04);
+    position: relative;
+  }
+  .jargao::before {
+    content: "\201C";
+    font-family: "Playfair Display", serif;
+    font-size: 6rem; line-height: 1;
+    color: rgba(200,150,12,0.12);
+    position: absolute; top: -10px; left: 14px;
+    pointer-events: none;
+  }
+  .jargao p {
+    font-family: "Playfair Display", serif;
+    font-size: 1.25rem; font-style: italic;
+    line-height: 1.6; color: var(--branco);
+    margin-bottom: 12px;
+    position: relative; z-index: 1;
+  }
+  .jargao p::first-letter { all: unset; }
+  .jargao cite {
+    font-family: "DM Mono", monospace;
+    font-size: 0.58rem; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--radio);
+    font-style: normal; position: relative; z-index: 1;
+  }
+
+  /* Destaque de placar histórico */
+  .placar-historico {
+    margin: 52px 0;
+    background: var(--carvao, #1a1a1a);
+    border: 1px solid rgba(255,255,255,0.07);
+    padding: 28px 28px 24px;
+    position: relative; overflow: hidden;
+  }
+  .placar-historico::before {
+    content: "";
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--radio), transparent);
+  }
+  .placar-historico-label {
+    font-family: "DM Mono", monospace;
+    font-size: 0.56rem; letter-spacing: 0.28em;
+    text-transform: uppercase; color: var(--radio);
+    margin-bottom: 20px;
+  }
+  .placar-historico-times {
+    display: flex; align-items: center; gap: 0; margin-bottom: 16px;
+  }
+  .ph-time { flex: 1; text-align: center; }
+  .ph-nome {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 1.5rem; letter-spacing: 0.08em;
+    color: var(--branco); margin-bottom: 4px;
+  }
+  .ph-gol {
+    font-family: "Playfair Display", serif;
+    font-size: 3.2rem; font-weight: 900;
+    color: var(--branco); line-height: 1;
+  }
+  .ph-sep {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 2rem; color: var(--cinza-m); padding: 0 14px;
+  }
+  .ph-detalhe {
+    font-family: "Lora", serif;
+    font-size: 0.85rem; font-style: italic;
+    color: rgba(253,250,245,0.5);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 14px; line-height: 1.6; text-align: center;
+  }
+
+  /* Divisor */
+  .divisor {
+    display: flex; align-items: center; gap: 16px;
+    margin: 52px 0;
+    font-family: "DM Mono", monospace;
+    font-size: 0.55rem; letter-spacing: 0.25em;
+    color: var(--cinza-m);
+  }
+  .divisor::before, .divisor::after {
+    content: ""; flex: 1; height: 1px;
+    background: rgba(255,255,255,0.06);
+  }
+
+  /* Encerramento / assinatura */
+  .assinatura {
+    margin-top: 64px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    text-align: right;
+  }
+  .assinatura-label {
+    font-family: "DM Mono", monospace;
+    font-size: 0.55rem; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--cinza-m);
+    margin-bottom: 6px;
+  }
+  .assinatura-nome {
+    font-family: "Playfair Display", serif;
+    font-size: 1.1rem; font-style: italic;
+    color: rgba(253,250,245,0.6);
+  }
+
+  /* Footer */
+  .art-footer {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 48px 48px 32px; text-align: center;
+  }
+  .art-footer-brand {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 1.1rem; letter-spacing: 0.15em;
+    color: rgba(253,250,245,0.2);
+    display: block; margin-bottom: 8px;
+  }
+  .art-footer-copy {
+    font-family: "DM Mono", monospace;
+    font-size: 0.55rem; letter-spacing: 0.18em;
+    text-transform: uppercase; color: rgba(253,250,245,0.12);
+  }
+
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(22px); }
+    to   { opacity:1; transform:none; }
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .hero { padding: 100px 24px 60px; }
+    .cronica-wrap { padding: 60px 24px 80px; }
+    .cronica-wrap::before { display: none; }
+    .jargao { padding: 20px 20px 20px 20px; }
+    .art-footer { padding: 40px 24px 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-brand">
+    <span class="nav-brand-dot"></span>
+    Incrível Futebol
+  </a>
+  <a href="index.html" class="nav-back">← Voltar</a>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-radio-waves">
+    <svg viewBox="0 0 1440 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <circle class="wave-ring" cx="320" cy="500" r="80"/>
+      <circle class="wave-ring" cx="320" cy="500" r="80"/>
+      <circle class="wave-ring" cx="320" cy="500" r="80"/>
+      <circle class="wave-ring" cx="320" cy="500" r="80"/>
+    </svg>
+  </div>
+  <div class="hero-gradient"></div>
+  <div class="hero-content">
+    <div class="hero-tipo">
+      Crônica Autoral
+      <span class="hero-tipo-badge">Pessoal</span>
+    </div>
+    <h1>Do Futebol ao Jornalismo:<br><em>Um Sonho que Persistiu</em></h1>
+    <p class="hero-sub">O jornalismo sempre foi o meu sonho. E, como muitos sonhos,<br>ele começou na minha infância, nas ondas do rádio.</p>
+    <div class="meta-bar">
+      <span class="meta-item">Crônica Autoral</span>
+      <span class="meta-dot"></span>
+      <span class="meta-item">Vilar dos Teles · Rio de Janeiro</span>
+      <span class="meta-dot"></span>
+      <span class="meta-item">Leitura: 5 min</span>
+    </div>
+  </div>
+</header>
+
+<!-- CRÔNICA -->
+<main class="cronica-wrap">
+
+  <div class="radio-vinheta">ZYZ 458 · Rádio Globo · No ar</div>
+
+  <p class="drop">O jornalismo sempre foi o meu sonho. E, como muitos sonhos, ele começou na minha infância, nas ondas do rádio. Para descrever como tudo começou, antes de mais nada e acima de tudo, preciso confessar que o jornalismo é um ideal que me acompanha há muitos anos. Um sonho de um menino que virou homem e, pelas circunstâncias que a realidade lhe trouxe, deixou de acreditar que seu sonho era possível. Mas a verdade é que ele sempre esteve lá, presente, em cada respiração, em cada batida do coração, em cada brilho do olhar.</p>
+
+  <p>Para contar essa história, preciso voltar no tempo, às origens onde tudo começou. Foi há muitos anos, na cidade do Rio de Janeiro, no bairro de Vilar dos Teles. Ainda posso ver aquele garoto de 11 anos que corria atrás da bola na rua e sonhava em ser um jogador de futebol famoso. Mal sabia que o futebol lhe revelaria outra paixão: o jornalismo.</p>
+
+  <p>É nesse momento que entra uma das figuras mais importantes da minha vida, a minha saudosa mãe. Ela é a responsável direta por tudo isso. Sim, foi ela que me apresentou uma das minhas grandes paixões, herdada do meu avô, o Clube de Regatas Vasco da Gama, o qual seus torcedores, dos quais faço parte, chamam carinhosamente de "Gigante da Colina".</p>
+
+  <p>Mas o que o Vasco, um time de futebol, tem a ver com o sonho de ser jornalista? Na verdade, tem tudo a ver. Foram nas transmissões dos jogos do Vasco, que eu ouvia pela Rádio Globo, que percebi que o que realmente me fascinava não era apenas o futebol, mas a forma como ele era contado. Não era apenas a emoção dos gols do meu time de coração, mas a habilidade dos narradores em transformar um jogo em uma verdadeira história, cheia de drama e paixão. Foi ali que o jornalismo começou a me encantar.</p>
+
+  <div class="vinheta-inline">ZYZ 458 · Rádio Globo</div>
+
+  <p>Quantas e quantas vezes, no silêncio da noite, entre um comercial e outro, ouvia aquele refrão tão familiar: ZYZ 458, Rádio Globo. Ainda me recordo dessa vinheta. A rádio, assim como o meu time, também coube à minha mãe me apresentar, uma ouvinte assídua dos programas de Cidinha Campos e Haroldo de Andrade. Aos domingos, os programas de debates, as reportagens de utilidade pública, os resumos da novela e as receitas do dia davam lugar à programação esportiva. E dessa forma, conheci as minhas primeiras referências no jornalismo.</p>
+
+  <p>Lembro-me de alguns nomes que me marcaram: a narração única e vibrante de José Carlos Araújo, o "Garotinho".</p>
+
+  <div class="jargao">
+    <p>"Apite comigo, galera! Entrou, golão, golão, golão, parou, parou, parou."</p>
+    <cite>José Carlos Araújo, o "Garotinho" — Rádio Globo</cite>
+  </div>
+
+  <p>Jargões inesquecíveis. Nas reportagens, os trepidantes na jogada, sempre em cima do lance, a voz inconfundível de Denir Menezes e o humor do saudoso Gilson Ricardo. Eram mais que simples vozes. Eram quase que amigos íntimos desconhecidos, eles me mostraram o poder do jornalismo em transmitir emoções e contar histórias.</p>
+
+  <div class="divisor">· · ·</div>
+
+  <p>E foi num dia de domingo, há exatamente 37 anos, que, na cozinha de nossa casa, eu e minha mãe ouvimos e nos emocionamos com esse trio inesquecível, contando a história do Vasco sagrando-se Campeão Carioca de 1987, em cima de seu maior rival, o Flamengo.</p>
+
+  <!-- Placar histórico -->
+  <div class="placar-historico">
+    <div class="placar-historico-label">⚽ Campeonato Carioca 1987 · Maracanã · 114.628 presentes</div>
+    <div class="placar-historico-times">
+      <div class="ph-time">
+        <div class="ph-nome">Vasco</div>
+        <div class="ph-gol">1</div>
+      </div>
+      <div class="ph-sep">×</div>
+      <div class="ph-time">
+        <div class="ph-nome">Flamengo</div>
+        <div class="ph-gol">0</div>
+      </div>
+    </div>
+    <div class="ph-detalhe">Gol de Tita, aos 41 minutos do primeiro tempo — transmitido pela Rádio Globo</div>
+  </div>
+
+  <p class="enfase">Assim, nos anos que se seguiram, a partir desse dia, o sonho de ser jogador começou a dar lugar a outro sonho: ser jornalista.</p>
+
+  <p>Após anos de vida e experiências, o Menino Sonhador continua aqui, mais determinado do que nunca a contar histórias que realmente importam. O sonho de ser jornalista não é apenas uma lembrança da minha juventude; é o futuro que estou construindo.</p>
+
+  <div class="assinatura">
+    <div class="assinatura-label">Crônica autoral</div>
+    <div class="assinatura-nome">Alexandro — Incrível Futebol</div>
+  </div>
+
+</main>
+
+<footer class="art-footer">
+  <span class="art-footer-brand">Incrível Futebol</span>
+  <span class="art-footer-copy">O Jogo Além das Quatro Linhas · Crônica Autoral</span>
+</footer>
+
+</body>
+</html>
